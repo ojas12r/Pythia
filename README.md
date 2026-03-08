@@ -1,4 +1,4 @@
-# 📈 Market Regime Detection — Hidden Markov Model
+#  Market Regime Detection — Hidden Markov Model
 
 > Unsupervised Gaussian HMM for regime-switching detection in financial time-series data.
 
@@ -11,60 +11,6 @@
 - **Live data** via `yfinance` (5 years daily OHLCV)
 - **Interactive charts**: price + regime overlay, log-returns, volatility
 - **Transition matrix** visualization
-
----
-
-## Run Locally
-
-```bash
-# 1. Clone / unzip the project
-cd hmm-regime-detector
-
-# 2. Install dependencies
-pip install -r requirements.txt
-
-# 3. Run
-python app.py
-
-# 4. Open http://localhost:5000
-```
-
----
-
-## Deploy to Render (FREE — ~15 min)
-
-### Step 1 — Push to GitHub
-```bash
-git init
-git add .
-git commit -m "Initial HMM regime detector"
-# Create a new repo at github.com, then:
-git remote add origin https://github.com/YOUR_USERNAME/hmm-regime-detector.git
-git push -u origin main
-```
-
-### Step 2 — Deploy on Render
-1. Go to **https://render.com** → Sign up / Log in
-2. Click **New → Web Service**
-3. Connect your GitHub repo
-4. Render auto-detects `render.yaml` — click **Deploy**
-5. Wait ~3-5 min for build → your app is LIVE at `https://hmm-regime-detector.onrender.com`
-
-> **Free tier note**: Render free tier spins down after 15 min of inactivity. First request after sleep takes ~30s.
-
----
-
-## Deploy to Railway (alternative, also FREE)
-
-```bash
-# Install Railway CLI
-npm install -g @railway/cli
-
-# Login & deploy
-railway login
-railway init
-railway up
-```
 
 ---
 

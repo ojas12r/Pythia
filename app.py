@@ -22,11 +22,19 @@ def fetch_data(ticker, period_years=5):
             df = df[["Close"]].dropna()
             if len(df) > 50:
                 return df
-        except Exception:
-            pass
-        time.sleep(2)
+        except Exception as e:
+            print(f"Attempt {attempt+1} failed: {e}")
+        time.sleep(1)
     
-    raise ValueError(f"Could not fetch data for '{ticker}'. Try again in a moment.")
+    # Last resort - use period instead of date range
+    df = yf.download(ticker, period="5y", progress=False)
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = df.columns.get_level_values(0)
+    df = df[["Close"]].dropna()
+    if len(df) > 50:
+        return df
+    
+    raise ValueError(f"Could not fetch data for '{ticker}'. Please check the symbol.")
 
 def compute_features(df):
     close = df["Close"].squeeze()

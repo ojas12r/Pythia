@@ -42,6 +42,8 @@ def label_regimes(model, states, n_states=3):
 
 def run_hmm(ticker, n_components=3, n_iter=1000):
     df = fetch_data(ticker)
+    if df.empty or len(df) < 100:
+        raise ValueError(f"No data found for ticker '{ticker}'. Please check the symbol and try again.")
     features, dates, prices, log_returns, volatility = compute_features(df)
 
     # Normalize features to prevent covariance issues

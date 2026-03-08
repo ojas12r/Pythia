@@ -10,13 +10,23 @@ warnings.filterwarnings("ignore")
 app = Flask(__name__)
 
 def fetch_data(ticker, period_years=5):
+    import time
     end = datetime.today()
     start = end - timedelta(days=period_years * 365)
-    df = yf.download(ticker, start=start, end=end, progress=False)
-    if isinstance(df.columns, pd.MultiIndex):
-        df.columns = df.columns.get_level_values(0)
-    df = df[["Close"]].dropna()
-    return df
+    
+    for attempt in range(3):
+        try:
+            df = yf.download(ticker, start=start, end=end, progress=False)
+            if isinstance(df.columns, pd.MultiIndex):
+                df.columns = df.columns.get_level_values(0)
+            df = df[["Close"]].dropna()
+            if len(df) > 50:
+                return df
+        except Exception:
+            pass
+        time.sleep(2)
+    
+    raise ValueError(f"Could not fetch data for '{ticker}'. Try again in a moment.")
 
 def compute_features(df):
     close = df["Close"].squeeze()

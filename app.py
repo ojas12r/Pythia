@@ -142,5 +142,16 @@ def analyze():
         print(traceback.format_exc())
         return jsonify({"success": False, "error": str(e)}), 400
 
+@app.route("/test")
+def test():
+    import traceback
+    try:
+        df = yf.download("SPY", period="5d", progress=False)
+        if isinstance(df.columns, pd.MultiIndex):
+            df.columns = df.columns.get_level_values(0)
+        return jsonify({"rows": len(df), "columns": df.columns.tolist(), "sample": str(df.tail(2))})
+    except Exception as e:
+        return jsonify({"error": str(e), "trace": traceback.format_exc()})        
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
